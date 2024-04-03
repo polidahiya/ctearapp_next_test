@@ -6,10 +6,7 @@ export default function Home() {
   const cardData = new Array(180).fill(undefined);
   return (
     <>
-      <nav
-        className="bg-blue-600 text-white h-[50px] flex items-center justify-center"
-        onClick={() => {setstate({...state,hello:"don"})}}
-      >
+      <nav className="bg-blue-600 text-white h-[50px] flex items-center justify-center">
         view through
       </nav>
       <div className="flex flex-wrap gap-[20px] justify-center mt-[20px]">
