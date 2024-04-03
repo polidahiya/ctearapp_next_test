@@ -1,0 +1,124 @@
+"use client";
+import React, { useState } from "react";
+import { useAppContext } from "../context/index";
+
+import Image from "next/image";
+import Link from "next/link";
+
+import Bikini from "./(svg)/Bikini";
+import Nude from "./(svg)/Nude";
+import Home from "./(svg)/Home";
+import Arrow from "./(svg)/Arrow";
+import Arrowright from "./(svg)/Arrowright";
+
+function page({ params }) {
+  const [maskpos, setmaskpos] = useState([-250, -250]);
+  const { fullnudemode, setfullnudemode } = useAppContext();
+  const { orientation, setorientation } = useAppContext();
+
+  const masksize = 200;
+  const movemask = (e) => {
+    let leftbounding = e.target.getBoundingClientRect().left;
+    let topbounding = e.target.getBoundingClientRect().top;
+
+    if (e.touches) {
+      if (orientation) {
+        setmaskpos([
+          e.touches[0].pageX - leftbounding - masksize,
+          e.touches[0].pageY - topbounding - masksize,
+        ]);
+      } else {
+        setmaskpos([
+          e.touches[0].pageX - leftbounding,
+          e.touches[0].pageY - topbounding - masksize,
+        ]);
+      }
+      return;
+    }
+
+    setmaskpos([
+      e.pageX - leftbounding - masksize / 2,
+      e.pageY - topbounding - masksize / 2,
+    ]);
+  };
+
+  return (
+    <div className="bg-gray-900">
+      <div
+        className="h-[100svh] relative"
+        onMouseMove={movemask}
+        onTouchMove={movemask}
+      >
+        {/* i button */}
+        <button
+          className="absolute top-5 left-5 h-[30px] aspect-square rounded-full bg-white block lg:hidden z-10"
+          onClick={() => {
+            setorientation(!orientation);
+          }}
+        >
+          i
+        </button>
+        {/* c */}
+        <Image
+          className="absolute h-full w-full object-contain top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
+          src={`/files/nude${params.preview}.jpg`}
+          alt={`/files/nude${params.preview}.jpg`}
+          width={2000}
+          height={2000}
+        ></Image>
+        {/* bik */}
+        <Image
+          className="absolute h-full w-full object-contain top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
+          src={
+            fullnudemode
+              ? `/files/nude${params.preview}nudefull.jpg`
+              : `/files/nude${params.preview}nude.jpg`
+          }
+          alt={`/files/nude${params.preview}nude.jpg`}
+          width={2000}
+          height={2000}
+          style={{
+            maskImage: "radial-gradient(black 0 75px, transparent 75px 30px)",
+            maskSize: masksize + "px " + masksize + "px",
+            maskRepeat: "no-repeat",
+            maskPosition: maskpos[0] + "px " + maskpos[1] + "px",
+          }}
+        ></Image>
+      </div>
+      <div className="controls absolute flex gap-[10px] p-[20px] portrait:bottom-0 portrait:translate-x-[-50%] portrait:left-[50%] portrait:w-full landscape:top-[50%] landscape:left-0 landscape:translate-y-[-50%] landscape:flex-col">
+        <Link
+          href="/"
+          style={{ animationDelay: "0.1s" }}
+          className=" w-[100px] h-[50px] text-white opacity-0 bg-white bg-opacity-[0.5] rounded-[5px] flex items-center justify-center p-[5px] portrait:w-full landscape:w-[50px] hover:bg-opacity-[0.2] animate-spin"
+        >
+          <Home />
+        </Link>
+        <button
+          style={{ animationDelay: "0.2s" }}
+          className=" w-[100px] h-[50px] text-white opacity-0 bg-white bg-opacity-[0.5] rounded-[5px] flex items-center justify-center p-[5px] portrait:w-full landscape:w-[50px] hover:bg-opacity-[0.2] animate-spin"
+          onClick={() => {
+            setfullnudemode(!fullnudemode);
+          }}
+        >
+          {fullnudemode ? <Nude /> : <Bikini />}
+        </button>
+        <Link
+          href={`/${parseInt(params.preview) - 1}`}
+          style={{ animationDelay: "0.3s" }}
+          className=" w-[100px] h-[50px] text-white opacity-0 bg-white bg-opacity-[0.5] rounded-[5px] flex items-center justify-center p-[5px] portrait:w-full landscape:w-[50px] hover:bg-opacity-[0.2] animate-spin"
+        >
+          <Arrow />
+        </Link>
+        <Link
+          href={`/${parseInt(params.preview) + 1}`}
+          style={{ animationDelay: "0.4s" }}
+          className=" w-[100px] h-[50px] text-white opacity-0 bg-white bg-opacity-[0.5] rounded-[5px] flex items-center justify-center p-[5px] portrait:w-full landscape:w-[50px] hover:bg-opacity-[0.2] animate-spin"
+        >
+          <Arrowright />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+export default page;

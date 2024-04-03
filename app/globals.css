@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media (orientation: portrait) {
+  .controls > * {
+    animation: controlsanimatio2 1s forwards;
+  }
+  @keyframes controlsanimatio2 {
+    0% {
+      opacity: 0;
+      transform: translateY(100px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
+}
+
+@media (orientation: landscape) {
+  .controls > * {
+    animation: controlsanimatio1 1s forwards;
+  }
+  @keyframes controlsanimatio1 {
+    0% {
+      opacity: 0;
+      transform: translateX(-100px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+  }
+}
