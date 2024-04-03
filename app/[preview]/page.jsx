@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useAppContext } from "../context/index";
+import { AppContextfn } from "../context/Index";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -11,10 +11,10 @@ import Home from "./(svg)/Home";
 import Arrow from "./(svg)/Arrow";
 import Arrowright from "./(svg)/Arrowright";
 
-function page({ params }) {
+function Page({ params }) {
   const [maskpos, setmaskpos] = useState([-250, -250]);
-  const { fullnudemode, setfullnudemode } = useAppContext();
-  const { orientation, setorientation } = useAppContext();
+  const { fullnudemode, setfullnudemode } = AppContextfn();
+  const { orientation, setorientation } = AppContextfn();
 
   const masksize = 200;
   const movemask = (e) => {
@@ -24,7 +24,7 @@ function page({ params }) {
     if (e.touches) {
       if (orientation) {
         setmaskpos([
-          e.touches[0].pageX - leftbounding - masksize,
+          e.touches[0].PageX - leftbounding - masksize,
           e.touches[0].pageY - topbounding - masksize,
         ]);
       } else {
@@ -121,4 +121,4 @@ function page({ params }) {
   );
 }
 
-export default page;
+export default Page;

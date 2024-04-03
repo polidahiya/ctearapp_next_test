@@ -16,6 +16,6 @@ export function Appwrapper({ children }) {
     </AppContext.Provider>
   );
 }
-export function useAppContext() {
+export function AppContextfn() {
   return useContext(AppContext);
 }

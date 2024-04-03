@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Appwrapper } from "./context/index";
+import { Appwrapper } from "./context/Index";
 import Navbar from "./Navbar/page";
 
 export const metadata = {

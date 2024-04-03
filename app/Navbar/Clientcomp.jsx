@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import { useAppContext } from "../context/index";
+import { AppContextfn } from "../context/Index";
 
 console.log("client comp");
 function Clientcomp() {
-  const { test, settest } = useAppContext();
+  const { test, settest } = AppContextfn();
   return (
     <div>
       i am client comp form nav
