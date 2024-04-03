@@ -1,6 +1,5 @@
 import "./globals.css";
 import { Appwrapper } from "./context/Index";
-import Navbar from "./Navbar/page";
 
 export const metadata = {
   title: "Create Next App",
@@ -12,10 +11,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Appwrapper>
-          <Navbar />
           {children}
         </Appwrapper>
       </body>
     </html>
   );
 }
+
