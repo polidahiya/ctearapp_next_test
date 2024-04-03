@@ -24,7 +24,7 @@ function Page({ params }) {
     if (e.touches) {
       if (orientation) {
         setmaskpos([
-          e.touches[0].PageX - leftbounding - masksize,
+          e.touches[0].pageX - leftbounding - masksize,
           e.touches[0].pageY - topbounding - masksize,
         ]);
       } else {
@@ -34,12 +34,12 @@ function Page({ params }) {
         ]);
       }
       return;
+    } else {
+      setmaskpos([
+        e.pageX - leftbounding - masksize / 2,
+        e.pageY - topbounding - masksize / 2,
+      ]);
     }
-
-    setmaskpos([
-      e.pageX - leftbounding - masksize / 2,
-      e.pageY - topbounding - masksize / 2,
-    ]);
   };
 
   return (
