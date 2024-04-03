@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <>
       <nav className="sticky top-0 z-10 bg-blue-600 text-white h-[50px] flex items-center justify-center">
-       XX view through
+        XX view through
       </nav>
       <div className="flex flex-wrap gap-[20px] justify-center mt-[20px]">
         {cardData.map((item, i) => {
@@ -15,7 +15,7 @@ export default function Home() {
             <Link
               href={`/${i + 1}`}
               key={i}
-              className="cards w-[100px] lg:w-[200px] aspect-[3/5] shadow-xl rounded-[20px] overflow-hidden cursor-pointer"
+              className="cards w-[100px]  aspect-[3/5] shadow-xl rounded-[10px] overflow-hidden cursor-pointer md:w-[150px] md:rounded-[15px] lg:w-[200px] lg:rounded-[20px] "
             >
               <Image
                 src={`/files/nude${i + 1}.jpg`}
