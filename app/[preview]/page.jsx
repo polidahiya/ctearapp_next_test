@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AppContextfn } from "../context/Index";
 
 import Image from "next/image";
@@ -15,40 +15,54 @@ function Page({ params }) {
   const [maskpos, setmaskpos] = useState([-250, -250]);
   const { fullnudemode, setfullnudemode } = AppContextfn();
   const { orientation, setorientation } = AppContextfn();
+  const mainDivRef = useRef(null);
 
   const masksize = 200;
-  const movemask = (e) => {
-    let leftbounding = e.target.getBoundingClientRect().left;
-    let topbounding = e.target.getBoundingClientRect().top;
+  useEffect(() => {
+    const movemask = (e) => {
+      let leftbounding = mainDivRef.current.getBoundingClientRect().left;
+      let topbounding = mainDivRef.current.getBoundingClientRect().top;
 
-    if (e.touches) {
-      if (orientation) {
-        setmaskpos([
-          e.touches[0].pageX - leftbounding - masksize,
-          e.touches[0].pageY - topbounding - masksize,
-        ]);
+      if (e.touches) {
+        e.preventDefault();
+        if (orientation) {
+          setmaskpos([
+            e.touches[0].pageX - leftbounding - masksize,
+            e.touches[0].pageY - topbounding - masksize,
+          ]);
+        } else {
+          setmaskpos([
+            e.touches[0].pageX - leftbounding,
+            e.touches[0].pageY - topbounding - masksize,
+          ]);
+        }
+        return;
       } else {
         setmaskpos([
-          e.touches[0].pageX - leftbounding,
-          e.touches[0].pageY - topbounding - masksize,
+          e.pageX - leftbounding - masksize / 2,
+          e.pageY - topbounding - masksize / 2,
         ]);
       }
-      return;
-    } else {
-      setmaskpos([
-        e.pageX - leftbounding - masksize / 2,
-        e.pageY - topbounding - masksize / 2,
-      ]);
-    }
-  };
+    };
+
+    mainDivRef.current.addEventListener("touchmove", movemask, {
+      passive: false,
+    });
+    mainDivRef.current.addEventListener("mousemove", movemask, {
+      passive: false,
+    });
+
+    return () => {
+      if (mainDivRef.current) {
+        mainDivRef.current.removeEventListener("touchmove", movemask);
+        mainDivRef.current.removeEventListener("mousemove", movemask);
+      }
+    };
+  }, []);
 
   return (
-    <div className="bg-gray-900">
-      <div
-        className="h-[100svh] relative"
-        onMouseMove={movemask}
-        onTouchMove={movemask}
-      >
+    <div className="bg-gray-900 select-none" ref={mainDivRef}>
+      <div className="h-[100svh] relative">
         {/* i button */}
         <button
           className="absolute top-5 left-5 h-[30px] aspect-square rounded-full bg-white block lg:hidden z-10"
