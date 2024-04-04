@@ -20,11 +20,11 @@ function Page({ params }) {
   const masksize = 200;
   useEffect(() => {
     const movemask = (e) => {
+      e.preventDefault();
       let leftbounding = mainDivRef.current.getBoundingClientRect().left;
       let topbounding = mainDivRef.current.getBoundingClientRect().top;
 
       if (e.touches) {
-        e.preventDefault();
         if (orientation) {
           setmaskpos([
             e.touches[0].pageX - leftbounding - masksize,
@@ -58,7 +58,7 @@ function Page({ params }) {
         mainDivRef.current.removeEventListener("mousemove", movemask);
       }
     };
-  }, []);
+  }, [orientation]);
 
   return (
     <div className="bg-gray-900 select-none" ref={mainDivRef}>
