@@ -79,6 +79,8 @@ function Page({ params }) {
           alt={`/files/nude${params.preview}.jpg`}
           width={2000}
           height={2000}
+          placeholder="blur"
+          blurDataURL="/spinner.gif"
         ></Image>
         {/* bik */}
         <Image
@@ -97,6 +99,8 @@ function Page({ params }) {
             maskRepeat: "no-repeat",
             maskPosition: maskpos[0] + "px " + maskpos[1] + "px",
           }}
+          placeholder="blur"
+          blurDataURL="/spinner.gif"
         ></Image>
       </div>
       <div className="controls absolute flex gap-[10px] p-[20px] portrait:bottom-0 portrait:translate-x-[-50%] portrait:left-[50%] portrait:w-full landscape:top-[50%] landscape:left-0 landscape:translate-y-[-50%] landscape:flex-col">

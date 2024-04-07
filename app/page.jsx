@@ -27,7 +27,6 @@ export default function Home() {
                 placeholder="blur"
                 blurDataURL="/spinner.gif"
               ></Image>
-              {/* https://encrypted-vtbn0.gstatic.com/video?q=tbn:ANd9GcS58QNPeYtCnZOAlqeqiD1jPghuHDpgm1QnzQ */}
             </Link>
           );
         })}
