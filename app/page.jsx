@@ -1,9 +1,15 @@
 import Link from "next/link";
 import { data } from "./mongodb";
+import { redirect } from "next/navigation";
 
-export default async function Home() {
+export default async function page({ searchParams }) {
+  if (!searchParams.page) {
+    redirect("?page=1");
+  }
   const datatoshow = await data
-    .find({}, { projection: { tags: 0, images: { $slice: 1 } } }, { limit: 10 })
+    .find({}, { projection: { tags: 0, images: { $slice: 1 } } })
+    .limit(searchParams?.page * 10)
+    .skip(searchParams?.page * 10 - 10)
     .toArray();
 
   datatoshow.forEach((item) => {
@@ -33,6 +39,10 @@ export default async function Home() {
             </Link>
           );
         })}
+      </div>
+      <div>
+        <Link href="?page=1">page1</Link>
+        <Link href="?page=2">page2</Link>
       </div>
     </>
   );

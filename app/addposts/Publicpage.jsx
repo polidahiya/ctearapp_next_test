@@ -110,6 +110,9 @@ function Publicpage() {
       <button
         className="flex items-center justify-center gap-[10px] bg-green-600 text-white px-[10px] py-[5px] rounded-[5px]"
         onClick={() => {
+          if(uploadloading){
+            return
+          }
           setuploadloading(true);
 
           if (post.images.length !== 3) {
