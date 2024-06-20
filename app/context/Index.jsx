@@ -1,9 +1,7 @@
 "use client";
 import { createContext, useContext, useState } from "react";
 
-const AppContext = createContext({
-  hello: "world",
-});
+const AppContext = createContext({});
 export function Appwrapper({ children }) {
   const [fullnudemode, setfullnudemode] = useState(false);
   const [orientation, setorientation] = useState(true);
