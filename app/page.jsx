@@ -16,6 +16,9 @@ export default async function page({ searchParams }) {
     item._id = item._id.toString();
   });
 
+  const totalposts = await data.countDocuments({});
+  const pages = new Array(Math.ceil(totalposts / 10)).fill(null);
+
   return (
     <>
       <nav className="sticky top-0 z-20 bg-blue-600 text-white h-[50px] flex items-center justify-center">
@@ -40,9 +43,39 @@ export default async function page({ searchParams }) {
           );
         })}
       </div>
-      <div>
-        <Link href="?page=1">page1</Link>
-        <Link href="?page=2">page2</Link>
+
+      {/* next and previous */}
+      <div className="flex justify-center flex-wrap gap-[10px] pt-[50px]">
+        {Number(searchParams.page) != 1 && (
+          <Link
+            href={`?page=${Number(searchParams.page) - 1}`}
+            className="bg-blue-700 text-white py-[3px] px-[20px] rounded-full"
+          >
+            Previous
+          </Link>
+        )}
+        {Number(searchParams.page) != pages.length && (
+          <Link
+            href={`?page=${Number(searchParams.page) + 1}`}
+            className="bg-blue-700 text-white py-[3px] px-[20px] rounded-full"
+          >
+            Next
+          </Link>
+        )}
+      </div>
+
+      <div className="flex justify-center flex-wrap gap-[10px] py-[50px]">
+        {pages.map((item, i) => {
+          return (
+            <Link
+              key={i}
+              href={`?page=${i + 1}`}
+              className="bg-blue-700 text-white py-[3px] px-[20px] rounded-full"
+            >
+              page{i + 1}
+            </Link>
+          );
+        })}
       </div>
     </>
   );
