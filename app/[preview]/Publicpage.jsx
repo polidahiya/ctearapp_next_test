@@ -10,7 +10,7 @@ import Home from "./(svg)/Home";
 import Arrow from "./(svg)/Arrow";
 import Arrowright from "./(svg)/Arrowright";
 
-function publicpage({imagedata}) {
+function Publicpage({imagedata}) {
   const [maskpos, setmaskpos] = useState([-250, -250]);
   const { fullnudemode, setfullnudemode } = AppContextfn();
   const { orientation, setorientation } = AppContextfn();
@@ -137,4 +137,4 @@ function publicpage({imagedata}) {
   );
 }
 
-export default publicpage;
+export default Publicpage;
