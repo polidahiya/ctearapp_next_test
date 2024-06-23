@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
 // import verifyToken from "@/app/components/Verifytoken";
-import { cookies } from "next/headers";
-import fs from "fs";
+// import { cookies } from "next/headers";
 import { data } from "../../mongodb";
 
 cloudinary.config({
@@ -35,22 +34,19 @@ export async function POST(req) {
       const image = formData.get("image" + i);
       const buffer = Buffer.from(await image.arrayBuffer());
 
-      const tempFilePath = await saveBufferToFile(
-        buffer,
-        Math.random() * 200 + image.name
-      );
-
-      // upload images
-      const uploadResult = await cloudinary.uploader.upload(tempFilePath, {
-        folder: "ctearapp",
-      });
-
-      imagesnamearray.push(uploadResult.url);
-      fs.unlinkSync(tempFilePath);
+      // Directly upload the buffer to Cloudinary without saving to a temporary file
+      const uploadResult = await cloudinary.uploader
+        .upload_stream({ folder: "ctearapp" }, (error, result) => {
+          if (error) {
+            throw error;
+          } else {
+            imagesnamearray.push(result.url);
+          }
+        })
+        .end(buffer);
     }
 
     // add to mongodb
-    // const updateproduct = await sitedata.updateOne(
     const updateproduct = await data.insertOne({
       images: imagesnamearray,
       tags: tags,
@@ -59,18 +55,6 @@ export async function POST(req) {
     return NextResponse.json({ message: "Updated successfully" });
   } catch (error) {
     console.log(error);
-    return NextResponse.json({ message: "Server error", error, error });
+    return NextResponse.json({ message: "Server error", error });
   }
 }
-
-const saveBufferToFile = (buffer, filename) => {
-  return new Promise((resolve, reject) => {
-    fs.writeFile(filename, buffer, (err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(filename);
-      }
-    });
-  });
-};
