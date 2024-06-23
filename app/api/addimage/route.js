@@ -48,18 +48,18 @@ export async function POST(req) {
       imagesnamearray.push(uploadResult.url);
       fs.unlinkSync(tempFilePath);
     }
-   
+
     // add to mongodb
     // const updateproduct = await sitedata.updateOne(
-    const updateproduct = await data.insertOne(
-      {images:imagesnamearray,tags:tags}
-    );
+    const updateproduct = await data.insertOne({
+      images: imagesnamearray,
+      tags: tags,
+    });
 
-    
     return NextResponse.json({ message: "Updated successfully" });
   } catch (error) {
     console.log(error);
-    return NextResponse.json({ message: "Server error" });
+    return NextResponse.json({ message: "Server error", error, error });
   }
 }
 

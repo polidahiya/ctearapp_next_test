@@ -29,7 +29,7 @@ export default async function page({ searchParams }) {
           return (
             <Link
               href={`/${item._id}`}
-              key={i}
+              key={i + new Date().getMilliseconds()}
               className=" cards w-[100px]  aspect-[3/5] shadow-xl rounded-[10px] overflow-hidden cursor-pointer md:w-[150px] md:rounded-[15px] lg:w-[200px] lg:rounded-[20px] "
             >
               <img

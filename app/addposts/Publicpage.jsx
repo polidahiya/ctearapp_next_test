@@ -110,8 +110,8 @@ function Publicpage() {
       <button
         className="flex items-center justify-center gap-[10px] bg-green-600 text-white px-[10px] py-[5px] rounded-[5px]"
         onClick={() => {
-          if(uploadloading){
-            return
+          if (uploadloading) {
+            return;
           }
           setuploadloading(true);
 
@@ -134,6 +134,7 @@ function Publicpage() {
             .then((res) => {
               console.log(res);
               if (res?.message) {
+                console.log(res?.error);
                 alert(res.message);
                 setuploadloading(false);
                 setPreviews([]);
