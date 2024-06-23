@@ -1,49 +1,43 @@
 import { NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
-// import verifyToken from "@/app/components/Verifytoken";
-// import { cookies } from "next/headers";
 import { data } from "../../mongodb";
 
 cloudinary.config({
-  cloud_name: "dz5gmpfoe",
-  api_key: "415767188726533",
-  api_secret: "w_aUPryn85Cx0vr3GZZ2y1H-Efg",
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 export async function POST(req) {
   try {
-    // const token = cookies().get("admintoken");
-
-    // if (!token) {
-    //   return NextResponse.json({ message: "Please login" });
-    // }
-
-    // const tokenres = await verifyToken(token.value);
-
-    // if (tokenres.email != "admin@vishal.com") {
-    //   return NextResponse.json({ message: "Invalid user" });
-    // }
-
     const formData = await req.formData();
 
     const tags = formData.get("tags");
 
     let imagesnamearray = [];
 
+    // Helper function to upload a single image
+    const uploadImage = (buffer) => {
+      return new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: "ctearapp" },
+          (error, result) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(result.url);
+            }
+          }
+        );
+        uploadStream.end(buffer);
+      });
+    };
+
     for (let i = 0; i < 3; i++) {
       const image = formData.get("image" + i);
       const buffer = Buffer.from(await image.arrayBuffer());
-
-      // Directly upload the buffer to Cloudinary without saving to a temporary file
-      const uploadResult = await cloudinary.uploader
-        .upload_stream({ folder: "ctearapp" }, (error, result) => {
-          if (error) {
-            throw error;
-          } else {
-            imagesnamearray.push(result.url);
-          }
-        })
-        .end(buffer);
+      const imageUrl = await uploadImage(buffer);
+      imagesnamearray.push(imageUrl);
     }
 
     // add to mongodb

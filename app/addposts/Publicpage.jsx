@@ -134,7 +134,9 @@ function Publicpage() {
             .then((res) => {
               console.log(res);
               if (res?.message) {
-                console.log(res?.error);
+                if (res.error) {
+                  console.log(res?.error);
+                }
                 alert(res.message);
                 setuploadloading(false);
                 setPreviews([]);
