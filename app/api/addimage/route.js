@@ -3,9 +3,9 @@ import { v2 as cloudinary } from "cloudinary";
 import { data } from "../../mongodb";
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: "dz5gmpfoe",
+  api_key: "415767188726533",
+  api_secret: "w_aUPryn85Cx0vr3GZZ2y1H-Efg",
 });
 
 export async function POST(req) {
