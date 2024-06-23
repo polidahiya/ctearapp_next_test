@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AppContextfn } from "../context/Index";
 
-import Image from "next/image";
 import Link from "next/link";
 import Bikini from "./(svg)/Bikini";
 import Nude from "./(svg)/Nude";
@@ -10,7 +9,7 @@ import Home from "./(svg)/Home";
 import Arrow from "./(svg)/Arrow";
 import Arrowright from "./(svg)/Arrowright";
 
-function Publicpage({imagedata}) {
+function Publicpage({ imagedata }) {
   const [maskpos, setmaskpos] = useState([-250, -250]);
   const { fullnudemode, setfullnudemode } = AppContextfn();
   const { orientation, setorientation } = AppContextfn();
@@ -81,11 +80,7 @@ function Publicpage({imagedata}) {
         {/* bik */}
         <img
           className="absolute h-full w-full object-contain top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
-          src={
-            fullnudemode
-              ? imagedata.images[2]
-              : imagedata.images[1]
-          }
+          src={fullnudemode ? imagedata.images[2] : imagedata.images[1]}
           alt={imagedata.images[1]}
           width={2000}
           height={2000}
@@ -98,13 +93,14 @@ function Publicpage({imagedata}) {
         ></img>
       </div>
       <div className="controls absolute flex gap-[10px] p-[20px] portrait:bottom-0 portrait:translate-x-[-50%] portrait:left-[50%] portrait:w-full landscape:top-[50%] landscape:left-0 landscape:translate-y-[-50%] landscape:flex-col">
-        <Link
-          href="/"
-          style={{ animationDelay: "0.1s" }}
+        <button
           className=" w-[100px] h-[50px] text-white opacity-0 bg-white bg-opacity-[0.5] rounded-[5px] flex items-center justify-center p-[5px] portrait:w-full landscape:w-[50px] hover:bg-opacity-[0.2] animate-spin"
+          onClick={() => {
+            window.history.back();
+          }}
         >
           <Home />
-        </Link>
+        </button>
         <button
           style={{ animationDelay: "0.2s" }}
           className=" w-[100px] h-[50px] text-white opacity-0 bg-white bg-opacity-[0.5] rounded-[5px] flex items-center justify-center p-[5px] portrait:w-full landscape:w-[50px] hover:bg-opacity-[0.2] animate-spin"

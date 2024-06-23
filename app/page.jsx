@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { data } from "./mongodb";
 import { redirect } from "next/navigation";
+const numberofimages = 10;
 
 export default async function page({ searchParams }) {
   if (!searchParams.page) {
@@ -8,8 +9,8 @@ export default async function page({ searchParams }) {
   }
   const datatoshow = await data
     .find({}, { projection: { tags: 0, images: { $slice: 1 } } })
-    .limit(searchParams?.page * 10)
-    .skip(searchParams?.page * 10 - 10)
+    .limit(numberofimages)
+    .skip(searchParams?.page * numberofimages - numberofimages)
     .toArray();
 
   datatoshow.forEach((item) => {
@@ -17,7 +18,7 @@ export default async function page({ searchParams }) {
   });
 
   const totalposts = await data.countDocuments({});
-  const pages = new Array(Math.ceil(totalposts / 10)).fill(null);
+  const pages = new Array(Math.ceil(totalposts / numberofimages)).fill(null);
 
   return (
     <>
@@ -45,11 +46,11 @@ export default async function page({ searchParams }) {
       </div>
 
       {/* next and previous */}
-      <div className="flex justify-center flex-wrap gap-[10px] pt-[50px]">
+      <div className="flex justify-center flex-wrap gap-[1px] pt-[50px]">
         {Number(searchParams.page) != 1 && (
           <Link
             href={`?page=${Number(searchParams.page) - 1}`}
-            className="bg-blue-700 text-white py-[3px] px-[20px] rounded-full"
+            className="flex items-center justify-center w-[100px] bg-blue-700 text-white py-[3px] px-[20px] rounded-l-full"
           >
             Previous
           </Link>
@@ -57,22 +58,26 @@ export default async function page({ searchParams }) {
         {Number(searchParams.page) != pages.length && (
           <Link
             href={`?page=${Number(searchParams.page) + 1}`}
-            className="bg-blue-700 text-white py-[3px] px-[20px] rounded-full"
+            className="flex items-center justify-center w-[100px] bg-blue-700 text-white py-[3px] px-[20px] rounded-r-full"
           >
             Next
           </Link>
         )}
       </div>
 
-      <div className="flex justify-center flex-wrap gap-[10px] py-[50px]">
+      <div className="flex justify-center flex-wrap gap-[10px] pt-[20px] pb-[50px]">
         {pages.map((item, i) => {
           return (
             <Link
               key={i}
               href={`?page=${i + 1}`}
-              className="bg-blue-700 text-white py-[3px] px-[20px] rounded-full"
+              className={`h-[30px] aspect-square rounded-full  flex items-center justify-center ${
+                searchParams.page - 1 == i
+                  ? "bg-blue-700 text-white "
+                  : " border border-blue-700"
+              }`}
             >
-              page{i + 1}
+              {i + 1}
             </Link>
           );
         })}
