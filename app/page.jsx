@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { data } from "./mongodb";
 import { redirect } from "next/navigation";
+import Image from "next/image";
 const numberofimages = 10;
 
 export default async function page({ searchParams }) {
@@ -33,13 +34,13 @@ export default async function page({ searchParams }) {
               key={i + new Date().getMilliseconds()}
               className=" cards w-[100px]  aspect-[3/5] shadow-xl rounded-[10px] overflow-hidden cursor-pointer md:w-[150px] md:rounded-[15px] lg:w-[200px] lg:rounded-[20px] "
             >
-              <img
+              <Image
                 src={item.images[0]}
                 alt="hello"
                 width={100}
                 height={100}
                 className="h-full w-full  object-cover scale-[1.1] hover:scale-[1] duration-300"
-              ></img>
+              ></Image>
             </Link>
           );
         })}
